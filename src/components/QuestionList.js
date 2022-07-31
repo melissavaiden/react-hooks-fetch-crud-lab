@@ -1,10 +1,21 @@
-import React from "react";
+import React, {useEffect} from "react";
+import QuestionItem from "./QuestionItem";
 
-function QuestionList() {
+function QuestionList({questionList, setQuestionList}) {
+  useEffect(() => {
+    fetch("http://localhost:4001/questions")
+      .then((r) => r.json())
+      .then((questions) => setQuestionList(questions));
+  }, [setQuestionList]);
+
   return (
     <section>
       <h1>Quiz Questions</h1>
-      <ul>{/* display QuestionItem components here after fetching */}</ul>
+      <ul>
+        {questionList.map((question) => {
+           return <QuestionItem question={question}/>
+          })}
+      </ul>
     </section>
   );
 }
